@@ -1,0 +1,47 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./phishing.db"
+}
+
+model Economy {
+  id           String        @id
+  name         String
+  region       String?
+  gdp_usd_bn   Float
+  last_updated DateTime      @default(now())
+  target_trade TradeMatrix[] @relation("TargetEcon")
+  source_trade TradeMatrix[] @relation("SourceEcon")
+
+  @@map("economies")
+}
+
+model Industry {
+  id       String        @id
+  name     String
+  category String?
+  trade    TradeMatrix[]
+
+  @@map("industries")
+}
+
+model TradeMatrix {
+  id                 Int      @id @default(autoincrement())
+  source_econ_id     String
+  target_econ_id     String
+  industry_id        String
+  value_added_usd_mn Float
+  baseline_tariff_pct Float   @default(0.0)
+  industry           Industry @relation(fields: [industry_id], references: [id])
+  target_econ        Economy  @relation("TargetEcon", fields: [target_econ_id], references: [id])
+  source_econ        Economy  @relation("SourceEcon", fields: [source_econ_id], references: [id])
+
+  @@unique([source_econ_id, target_econ_id, industry_id])
+  @@index([source_econ_id])
+  @@index([target_econ_id])
+  @@index([industry_id])
+  @@map("trade_matrix")
+}

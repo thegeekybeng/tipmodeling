@@ -1,0 +1,11 @@
+{
+  "name": "tipm-engine-db",
+  "version": "1.0.0",
+  "description": "DB management for TIPM Engine",
+  "dependencies": {
+    "@prisma/client": "^6.19.1"
+  },
+  "devDependencies": {
+    "prisma": "^6.19.1"
+  }
+}

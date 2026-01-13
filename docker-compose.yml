@@ -1,0 +1,62 @@
+# --- 1. VERSION ---
+
+# --- 2. SERVICES ---
+services:
+  # --- 2.1 DATABASE SERVICE ---
+  db:
+    image: postgres:15-alpine
+    container_name: tipm-db
+    restart: always
+    environment:
+      POSTGRES_DB: tipm
+      POSTGRES_USER: tipm_user
+      POSTGRES_PASSWORD: tipm_password
+    ports:
+      - "5436:5432"
+    volumes:
+      - tipm_db_data:/var/lib/postgresql/data
+
+  # --- 2.2 ENGINE SERVICE (FASTAPI) ---
+  engine:
+    build: ./engine
+    container_name: tipm-engine
+    restart: always
+    command: python3 -u main.py
+    ports:
+      - "3009:8000"
+    environment:
+      - DATABASE_URL=postgresql://tipm_user:tipm_password@db:5432/tipm
+    depends_on:
+      - db
+    volumes:
+      - ./engine:/app
+
+  # --- 2.3 WEB SERVICE (NEXT.JS) ---
+  web:
+    build:
+      context: ./web
+      target: development
+    container_name: tipm-web
+    user: root
+    restart: always
+    ports:
+      - "3008:3000"
+    environment:
+      - API_URL=http://engine:8000
+      - ENGINE_URL=http://engine:8000
+      - NEXT_PUBLIC_API_URL=http://localhost:3009
+      - DATABASE_URL=postgresql://tipm_user:tipm_password@db:5432/tipm
+      - NEXT_PUBLIC_APP_URL=http://localhost:3008
+    depends_on:
+      - db
+      - engine
+    command: npm run dev
+    volumes:
+      - ./web:/app
+      - /app/node_modules
+      - /app/.next
+
+# --- 3. VOLUMES ---
+volumes:
+  tipm_db_data:
+    name: tipm_db_data

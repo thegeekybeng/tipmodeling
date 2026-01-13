@@ -1,0 +1,37 @@
+# --- 1. DATA SOURCE CONFIGURATION ---
+data_sources:
+  worldbank_wdi:
+    name: "World Bank WDI (GDP Denial/Denominators)"
+    base_url: "https://api.worldbank.org/v2"
+    endpoints:
+      gdp: "/country/all/indicator/NY.GDP.MKTP.CD"
+    params: { format: "json", per_page: 300 }
+    rate_limit: { delay_seconds: 1.0, max_retries: 3 }
+
+  wto_data_centre:
+    name: "WTO Data Centre (Initial tariff anchors)"
+    base_url: "https://api.wto.org/timeseries/v1"
+    endpoints:
+      applied_tariffs: "/data"
+    rate_limit: { delay_seconds: 2.0 }
+
+  oecd_tiva:
+    name: "OECD TiVA (Supply Chain Contagion Logic)"
+    base_url: "https://stats.oecd.org/restsdmx/sdmx.ashx/GetData"
+    dataset_id: "TIVA_2024"
+    endpoints:
+      value_added: "/TIVA_2024"
+    logic_role: "WORLD_GRAPH_DEPENDENCIES"
+    rate_limit: { delay_seconds: 5.0 }
+
+  imf_weo:
+    name: "IMF WEO (Second-Order Recovery Forecasts)"
+    base_url: "https://www.imf.org/external/datamapper/api/v1"
+    endpoints:
+      gdp_growth: "/NGDP_RPCH"
+
+# --- 2. CACHING STRATEGY ---
+caching:
+  db_path: "data/phishing.db"
+  ttl_days: 30
+  data_baseline: "OECD TIVA 2024/25"
