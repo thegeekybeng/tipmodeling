@@ -1,20 +1,20 @@
-# TIPM | Trade & Industrial Impact Propagation Model (v6.0-Macro)
+# TIPM | Trade & Industrial Impact Propagation Model (v1.0)
 
 **Strategic Decision Intelligence for the Decoupling Era.**
 
 ---
 
-## 🏛️ Executive Abstract
+## 🏛️ Project Overview
 
-In an era of rising geoeconomic fragmentation, the **Trade & Industrial Impact Propagation Model (TIPM)** serves as a mission-critical "Stress Test" environment for sovereign industrial policy. This platform is not a static database; it is a **Deterministic Causality Engine** designed to quantify the systemic shocks of trade intervention across global supply chains.
+In an era of rising geoeconomic fragmentation, the **Trade & Industrial Impact Propagation Model (TIPM)** serves as a mission-critical "Stress Test" environment for sovereign industrial policy. This project is not a static database; it is a **Deterministic Causality Engine** designed to quantify the systemic shocks of trade intervention across global supply chains.
 
 By leveraging **Multi-Regional Input-Output (MRIO)** logic, TIPM moves beyond gross trade stats to "Value Added" metrics, allowing policy architects to visualize the recursive ripple effects—upstream, downstream, and domestic—of a single tariff shock.
 
 ---
 
-## 💎 Value Proposition: Solving the "Singapore Paradox"
+## 💎 Value Proposition: Clarity through Causality
 
-Standard trade models often ignore the embedded value of third-party nations in bilateral flows. TIPM solves the **Singapore Paradox**: understanding why a superpower trade war hit small, resource-rich, or hi-tech intermediate nations with twice the volatility of the direct targets.
+Standard trade models often ignore the embedded value of third-party nations in bilateral flows. TIPM solves this by providing a **deterministic causality engine** that allows policy architects to visualize the recursive ripple effects—upstream, downstream, and domestic—of a single tariff shock.
 
 - **High-Fidelity Granularity**: 190+ Economies | 45+ Industrial Sectors.
 - **Dynamic Baselines**: Anchored in real-time WTO Applied Tariffs and OECD TiVA 2024 datasets.
@@ -48,25 +48,26 @@ Standard trade models often ignore the embedded value of third-party nations in 
 docker-compose up -d --build
 ```
 
-Access the **Mission Control** portal at `http://localhost:3008`.
+Access the **TIPM Frontend** portal at `http://localhost:3008`.
 
 ### Operational Ports
 
-| Service                   | External Port | Internal Port |
-| ------------------------- | ------------- | ------------- |
-| **Mission Control (Web)** | 3008          | 3000          |
-| **Simulation Engine**     | 3009          | 8000          |
-| **Data Core (DB)**        | 5436          | 5432          |
+| Service                 | External Port | Internal Port |
+| ----------------------- | ------------- | ------------- |
+| **TIPM Frontend**       | 3008          | 3000          |
+| **TIPM Engine**         | 3009          | 8000          |
+| **TIPM Data Core (DB)** | 5436          | 5432          |
 
 ---
 
 ## 📈 Roadmap & Strategic Evolution
 
-- [x] **v5.4**: Implementation of Sectoral Granularity (ISIC Level 2).
-- [x] **v6.0**: Macro-Scale Expansion (190+ Economies) & WTO Baseline Integration.
-- [ ] **v7.0 (Upcoming)**: GenAI-Integrated Scenario Forecasts & Live Currency Volatility Overlay.
+- [x] **v0.6**: Implementation of Sectoral Granularity (ISIC Level 2).
+- [x] **v1.0**: Macro-Scale Expansion (190+ Economies) & WTO Baseline Integration.
+- [ ] **v1.1 (Upcoming)**: GenAI-Integrated Scenario Forecasts & Live Currency Volatility Overlay.
 
 ---
 
-**Developed for the Global Trade Redesign Initiative.**
-_Architected by Team Antigravity._
+**This tool is created to demonstrate the power of AI in policy analysis.**
+_Architected by Andrew Yeo. Developed using Antigravity and Gemini 3 Flash._
+_Follow me on github or X @thegeekybeng. For any collaboration, feedback, or suggestions, email me at <tgb_dev@thegeekybeng.com> ._
