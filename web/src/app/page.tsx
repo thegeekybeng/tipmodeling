@@ -186,7 +186,7 @@ export default function Home() {
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           <aside className="lg:col-span-4 space-y-6">
-            <div className="bg-slate-900/40 backdrop-blur-xl border border-slate-800 p-8 rounded-3xl shadow-2xl sticky top-8">
+            <div className="bg-slate-950/50 backdrop-blur-xl border border-white/10 p-8 rounded-3xl shadow-2xl sticky top-8">
               <h2 className="text-xl font-bold mb-8 flex items-center gap-2">
                 <ShieldAlert className="w-5 h-5 text-blue-400" />
                 Simulation Config
@@ -199,7 +199,7 @@ export default function Home() {
                   <select
                     value={importingId}
                     onChange={(e) => setImportingId(e.target.value)}
-                    className="w-full bg-slate-950 border border-slate-800 p-3 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none appearance-none cursor-pointer text-sm"
+                    className="w-full bg-slate-950/50 border-none shadow-inner p-3 rounded-xl focus:ring-2 focus:ring-blue-500/50 outline-none appearance-none cursor-pointer text-sm font-mono"
                   >
                     {economies.map((e) => (
                       <option key={e.id} value={e.id}>
@@ -215,7 +215,7 @@ export default function Home() {
                   <select
                     value={exportingId}
                     onChange={(e) => setExportingId(e.target.value)}
-                    className="w-full bg-slate-950 border border-slate-800 p-3 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none appearance-none cursor-pointer text-sm"
+                    className="w-full bg-slate-950/50 border-none shadow-inner p-3 rounded-xl focus:ring-2 focus:ring-blue-500/50 outline-none appearance-none cursor-pointer text-sm font-mono"
                   >
                     {economies
                       .filter((e) => e.id !== importingId)
@@ -233,7 +233,7 @@ export default function Home() {
                   <select
                     value={industryId}
                     onChange={(e) => setIndustryId(e.target.value)}
-                    className="w-full bg-slate-950 border border-slate-800 p-3 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none appearance-none cursor-pointer text-sm"
+                    className="w-full bg-slate-950/50 border-none shadow-inner p-3 rounded-xl focus:ring-2 focus:ring-blue-500/50 outline-none appearance-none cursor-pointer text-sm font-mono"
                   >
                     {industries.map((i) => (
                       <option key={i.id} value={i.id}>
@@ -268,11 +268,11 @@ export default function Home() {
                     onChange={(e) => setTariff(parseInt(e.target.value))}
                     className="w-full h-3 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-red-500 hover:accent-red-400 transition-all"
                   />
-                  <div className="flex justify-between items-center border-t border-slate-800 pt-4">
+                  <div className="flex justify-between items-center border-t border-white/5 pt-4">
                     <label className="text-[10px] font-mono text-slate-400 uppercase tracking-widest leading-none">
                       Total Applied
                     </label>
-                    <span className="text-white font-mono text-lg font-black">
+                    <span className="text-white font-mono text-lg font-black tabular-nums">
                       {(simulationResult?.baseline_tariff_pct ?? 0) + tariff}%
                     </span>
                   </div>
@@ -328,7 +328,7 @@ export default function Home() {
                     : "opacity-100 transition-opacity"
                 }
               >
-                <div className="bg-slate-900/40 border border-slate-800 rounded-[2.5rem] overflow-hidden flex flex-col shadow-2xl backdrop-blur-md">
+                <div className="bg-slate-950/50 border border-white/10 rounded-[2.5rem] overflow-hidden flex flex-col shadow-2xl backdrop-blur-xl">
                   <div className="p-8 md:p-12 border-b border-slate-800/50">
                     <div className="flex flex-col md:flex-row justify-between items-start gap-8 mb-12">
                       <div className="flex-1">
@@ -336,15 +336,15 @@ export default function Home() {
                           <Info className="w-5 h-5" />
                           Strategic Impact Insight
                         </h3>
-                        <p className="text-2xl md:text-3xl font-bold text-slate-100 leading-tight tracking-tight">
+                        <p className="text-2xl md:text-3xl font-bold text-slate-100 leading-tight tracking-tight font-sans">
                           {simulationResult.executive_summary}
                         </p>
                       </div>
-                      <div className="w-full md:w-auto p-8 bg-red-600/10 rounded-3xl border border-red-500/20 text-center min-w-[200px]">
+                      <div className="w-full md:w-auto p-8 bg-red-600/10 rounded-3xl border border-red-500/20 text-center min-w-[200px] shadow-[0_0_20px_rgba(239,68,68,0.1)]">
                         <p className="text-[10px] font-mono text-red-400/70 uppercase tracking-widest mb-1">
                           Current Economic Drain
                         </p>
-                        <p className="text-4xl font-black text-red-500 tabular-nums">
+                        <p className="text-5xl font-black tabular-nums text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-orange-500">
                           {currentSensitivityPoint
                             ? formatUSD(currentSensitivityPoint.global_loss_mn)
                             : formatUSD(
@@ -366,14 +366,14 @@ export default function Home() {
                             Crashing Point Analysis
                           </p>
                           <div className="flex items-center gap-3">
-                            <span className="text-3xl font-black text-red-500">
+                            <span className="text-3xl font-black text-red-500 font-mono tabular-nums">
                               {
                                 simulationResult.sensitivity
                                   ?.crashing_point_tariff
                               }
                               %
                             </span>
-                            <span className="px-3 py-1 bg-red-500/10 border border-red-500/30 rounded-full text-[10px] font-black text-red-500 uppercase tracking-tighter">
+                            <span className="px-3 py-1 bg-red-500/10 border border-red-500/50 rounded-full text-[10px] font-black text-red-500 uppercase tracking-tighter shadow-[0_0_10px_rgba(239,68,68,0.3)]">
                               Systemic Tipping Point
                             </span>
                           </div>
@@ -397,7 +397,7 @@ export default function Home() {
                                   <stop
                                     offset="5%"
                                     stopColor="#ef4444"
-                                    stopOpacity={0.4}
+                                    stopOpacity={0.2}
                                   />
                                   <stop
                                     offset="95%"
@@ -451,7 +451,16 @@ export default function Home() {
                                       .crashing_point_tariff
                                   }
                                   stroke="#ef4444"
-                                  strokeDasharray="4 4"
+                                  strokeWidth={2}
+                                  className="drop-shadow-[0_0_8px_rgba(239,68,68,0.8)]"
+                                  label={{
+                                    value: "TIPPING POINT",
+                                    position: "insideTopRight",
+                                    fill: "#ef4444",
+                                    fontSize: 10,
+                                    fontWeight: "bold",
+                                    fontFamily: "monospace",
+                                  }}
                                 />
                               )}
                               <ReferenceLine
@@ -486,7 +495,7 @@ export default function Home() {
                           (event, idx) => (
                             <div
                               key={idx}
-                              className="flex items-start gap-4 p-4 rounded-2xl bg-slate-900/30 border border-slate-800/50"
+                              className="flex items-start gap-4 p-4 rounded-2xl bg-slate-950/50 border border-white/5 shadow-inner"
                             >
                               <div className="text-xs font-black text-slate-700 mt-0.5">
                                 0{idx + 1}
@@ -495,7 +504,7 @@ export default function Home() {
                                 <p className="text-[10px] font-mono text-blue-400 uppercase tracking-tighter">
                                   {event.period}
                                 </p>
-                                <p className="text-sm font-bold text-slate-200">
+                                <p className="text-sm font-bold text-slate-200 font-mono tabular-nums">
                                   {formatUSD(event.global_loss_mn)}
                                 </p>
                                 <p className="text-[10px] text-slate-500 italic mt-1 leading-tight">
@@ -515,7 +524,7 @@ export default function Home() {
                       <div className="space-y-3 max-h-[300px] overflow-y-auto pr-2 custom-scrollbar">
                         {resourceImpacts?.map((imp) => (
                           <div key={imp.country_id} className="space-y-2 mb-4">
-                            <div className="flex justify-between items-center p-3 rounded-xl bg-slate-950/40 border border-slate-800/50">
+                            <div className="flex justify-between items-center p-3 rounded-xl bg-slate-950/50 border border-white/5 shadow-inner">
                               <div className="flex items-center gap-3">
                                 <p className="text-[10px] font-mono text-slate-600">
                                   {imp.country_id}
@@ -524,7 +533,7 @@ export default function Home() {
                                   {imp.country_name}
                                 </span>
                               </div>
-                              <p className="text-xs font-black text-red-500">
+                              <p className="text-xs font-black text-red-500 font-mono tabular-nums">
                                 -{imp.total_gdp_impact_pct.toFixed(3)}%
                               </p>
                             </div>
@@ -537,7 +546,7 @@ export default function Home() {
                                   <span className="text-slate-500 font-mono">
                                     {sect.industry_name}
                                   </span>
-                                  <span className="text-red-400 font-bold">
+                                  <span className="text-red-400 font-bold font-mono tabular-nums">
                                     {sect.impact_pct.toFixed(4)}%
                                   </span>
                                 </div>

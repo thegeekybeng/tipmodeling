@@ -9,7 +9,7 @@ from logic import calculate_simulation
 
 def test_us_cn_tariff():
     print("--- Running Test: US imposes 10% tariff on China ---")
-    shock = PolicyShock(source="US", target="CN", tariff_delta=0.10)
+    shock = PolicyShock(source_id="USA", target_id="CHN", industry_id="D26", tariff_delta=10.0)
     results = calculate_simulation(shock)
     
     cn_impact = results["CN"]

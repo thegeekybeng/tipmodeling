@@ -65,7 +65,7 @@ def get_available_industries(source_id: str, target_id: str) -> List[IndustryPro
 
 # --- CONFIGURATION & GOVERNANCE ---
 REPRODUCIBILITY_SEED = 42
-SENSITIVITY_FACTOR = 0.4      # Bullwhip Effect Multiplier (Reduced from 1.5 to 0.4)
+CONTAGION_DECAY_FACTOR = 0.4  # Upstream Demand Contagion Factor (Attenuation/Decay logic)
 IMPORT_BLOWBACK_BASE = 0.05   # Base 5% inflationary blowback (Reduced from 10%)
 WEALTH_TRANSFER_RATE = 0.45   # 45% of tariff value transferred to local producers (Increased from 25%)
 EFFICIENCY_GAP_COEFF = 0.002  # Quadratic drag coefficient for deadweight loss
@@ -188,7 +188,7 @@ def calculate_simulation(shock: PolicyShock, include_sensitivity: bool = True) -
         ))
         global_loss_mn += direct_loss_exporter
 
-        # --- 3. UPSTREAM CONTAGION (Bullwhip) ---
+        # --- 3. UPSTREAM CONTAGION (Supply Chain Decay) ---
         cur.execute("""
             SELECT e.id, e.name, e.gdp_usd_bn, tm.value_added_usd_mn
             FROM trade_matrix tm JOIN economies e ON tm.source_econ_id = e.id
@@ -198,14 +198,14 @@ def calculate_simulation(shock: PolicyShock, include_sensitivity: bool = True) -
         for supplier in cur.fetchall():
             if supplier['id'] == shock.target_id: continue
             supplier_va_mn = float(supplier['value_added_usd_mn'])
-            upstream_loss = (direct_loss_exporter * (supplier_va_mn / sector_export_vol_mn)) * SENSITIVITY_FACTOR
+            upstream_loss = (direct_loss_exporter * (supplier_va_mn / sector_export_vol_mn)) * CONTAGION_DECAY_FACTOR
             impacts.append(SimulationImpact(
                 country_id=supplier['id'], country_name=supplier['name'],
                 role=EconomicRole.EXPORTING_RESOURCE,
                 direct_impact_usd_mn=-upstream_loss,
                 total_gdp_impact_pct=-(upstream_loss / (float(supplier['gdp_usd_bn']) * 1000.0)) * 100.0,
                 impact_narrative="Upstream volatility contagion.",
-                impact_reasons=[f"Bullwhip shock on intermediate demand (x{SENSITIVITY_FACTOR})"],
+                impact_reasons=[f"Upstream demand contraction (Decay Factor: {CONTAGION_DECAY_FACTOR})"],
                 trend="DOWN",
                 sectoral_impacts=[
                     SectoralImpact(
@@ -228,6 +228,7 @@ def calculate_simulation(shock: PolicyShock, include_sensitivity: bool = True) -
             domestic_gain = (direct_loss_exporter * wealth_transfer) * efficiency_gap_factor
             
             # B: Deadweight Loss (Value destroyed - Quadratic)
+            # Implements Harberger Triangle approximation for deadweight loss estimation.
             deadweight_loss = (direct_loss_exporter * (tariff_factor / 2))
             
             # C: Inflationary Blowback
@@ -293,7 +294,7 @@ def calculate_simulation(shock: PolicyShock, include_sensitivity: bool = True) -
         RadarMetrics(axis="Global Drain", value=min(100, (global_loss_mn / 50000) * 100)),
         RadarMetrics(axis="Inflation Severity", value=min(100, tariff_factor * 100)),
         RadarMetrics(axis="Retaliation Risk", value=50.0 if shock.tariff_delta > 10 else 10.0),
-        RadarMetrics(axis="Supply Chain Volatility", value=SENSITIVITY_FACTOR * 40), # 1.5x -> 60
+        RadarMetrics(axis="Supply Chain Volatility", value=CONTAGION_DECAY_FACTOR * 40), # 1.5x -> 60
         RadarMetrics(axis="Protectionist Gain", value=min(100, (next((i.domestic_gain_usd_mn for i in impacts if i.role == EconomicRole.IMPORTING), 0) / 5000) * 100))
     ]
     

@@ -22,13 +22,51 @@ Standard trade models often ignore the embedded value of third-party nations in 
 
 ---
 
-## ⚙️ Architectural Blueprints
+### System Architecture
+
+```mermaid
+graph TD
+    %% Global Styles
+    classDef data fill:#0f172a,stroke:#334155,stroke-width:2px,color:#fff,font-family:monospace;
+    classDef logic fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#fff,font-family:sans-serif;
+    classDef ui fill:#172554,stroke:#60a5fa,stroke-width:1px,color:#bfdbfe,font-family:sans-serif;
+
+    subgraph "Layer 1: The Truth (Data Ingestion)"
+        A[WTO Applied Tariffs]:::data -->|Import| D(PostgreSQL Data Core):::data
+        B[OECD TiVA Dataset]:::data -->|Import| D
+        C[UN Comtrade Stats]:::data -->|Import| D
+    end
+
+    subgraph "Layer 2: The Physics Engine (Python/FastAPI)"
+        D -->|Fetch Context| E{Causality Solver}:::logic
+
+        %% Core Logic Nodes
+        E -->|Calculate| F[Direct Revenue Contraction]:::logic
+        E -->|Estimate| G[Harberger Deadweight Loss]:::logic
+        E -->|Propagate| H[Upstream Contagion Decay]:::logic
+
+        %% Logic Details
+        G -.->|Formula| G1("Loss * (Tariff/2)"):::data
+        H -.->|Factor| H1("Decay Factor: 0.4"):::data
+    end
+
+    subgraph "Layer 3: Mission Control (Next.js)"
+        F --> I[Sector Impact Dashboard]:::ui
+        G --> I
+        H --> I
+        I -->|Render| J[Executive Narrative]:::ui
+        I -->|Visualize| K[Crashing Point Chart]:::ui
+    end
+
+    %% Connectors
+    linkStyle default stroke:#64748b,stroke-width:1px;
+```
 
 ### Core Simulation Pillars
 
 1. **Direct Revenue Contraction**: Real-time modeling of export volume decay in targeted sectors.
-2. **Upstream Contagion (Bullwhip)**: Recursive trace of value-added loss for intermediate resource providers.
-3. **Domestic Inflationary Blowback**: Quantification of deadweight loss and consumer price spikes in the importing nation.
+2. **Upstream Contagion Decay**: Recursive trace of value-added loss for intermediate resource providers (Decay Factor: 0.4).
+3. **Domestic Inflationary Blowback**: Quantification of deadweight loss (Harberger Triangle) and consumer price spikes.
 4. **Strategic Retaliation Matrix**: Predictive modeling of secondary policy responses.
 
 ### Technology Stack (Enterprise Grade)
