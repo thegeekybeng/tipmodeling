@@ -107,5 +107,11 @@ Access the **TIPM Frontend** portal at `http://localhost:3008`.
 ---
 
 **This tool is created to demonstrate the power of AI in policy analysis.**
-_Architected by Andrew Yeo. Developed using Antigravity and Gemini 3 Flash._
-_Follow me on github or X @thegeekybeng. For any collaboration, feedback, or suggestions, email me at <tgb_dev@thegeekybeng.com> ._
+
+```python
+Disclaimer: This model is an educational simulation designed to demonstrate algorithmic impact propagation. It utilizes static WTO/OECD datasets and standard economic approximations (Harberger/Leontief) for architectural demonstration purposes. It is not intended for real-time financial forecasting or sovereign policy advisory.
+```
+
+TIPM was developed using Antigravity and Gemini 3.
+
+For collaboration, feedback, or suggestions, reach out to me at <tgb_dev@thegeekybeng.com> . Follow me on github or X @thegeekybeng.
