@@ -4,6 +4,42 @@
 
 ---
 
+## ⚖️ Governance & Logic Audit (engine/logic.py)
+
+```python
+MODULE: logic.py
+CONTEXT: TIPM (Trade & Industrial Impact Propagation Model)
+AUTHOR: Andrew Yeo
+
+DESCRIPTION:
+This module implements the deterministic causality engine for the simulation.
+It intentionally rejects "Black Box" AI inference in favor of standard economic
+approximations to ensure auditability and consistent stress-testing.
+
+CORE ALGORITHMS:
+
+1. HARBERGER APPROXIMATION (Deadweight Loss):
+   Calculates the efficiency loss using the standard "Triangle" geometry:
+   Loss = 0.5 * (Price_Change * Quantity_Change)
+
+   This provides a conservative baseline for value destruction that occurs
+   independent of transfer payments.
+
+2. CONTAGION DECAY (Upstream Propagation):
+   Models the attenuation of a demand shock as it travels upstream through
+   the supply chain.
+
+   Formula: Upstream_Impact = Direct_Impact * (Value_Added_Ratio) * DECAY_FACTOR
+
+   Where DECAY_FACTOR (0.4) represents the dampening of volatility as it moves
+   away from the demand signal (attenuation), distinct from the Bullwhip Effect
+   (which describes variance amplification).
+
+3. SYSTEMIC CRASHING POINT:
+   Identifies the threshold where Cumulative_Deadweight_Loss > Domestic_Producer_Gains.
+
+```
+
 ## 🏛️ Project Overview
 
 In an era of rising geoeconomic fragmentation, the **Trade & Industrial Impact Propagation Model (TIPM)** serves as a mission-critical "Stress Test" environment for sovereign industrial policy. This project is not a static database; it is a **Deterministic Causality Engine** designed to quantify the systemic shocks of trade intervention across global supply chains.
@@ -60,6 +96,7 @@ graph TD
 
     %% Connectors
     linkStyle default stroke:#64748b,stroke-width:1px;
+
 ```
 
 ### Core Simulation Pillars
@@ -84,6 +121,7 @@ graph TD
 
 ```bash
 docker-compose up -d --build
+
 ```
 
 Access the **TIPM Frontend** portal at `http://localhost:3008`.
@@ -110,8 +148,9 @@ Access the **TIPM Frontend** portal at `http://localhost:3008`.
 
 ```python
 Disclaimer: This model is an educational simulation designed to demonstrate algorithmic impact propagation. It utilizes static WTO/OECD datasets and standard economic approximations (Harberger/Leontief) for architectural demonstration purposes. It is not intended for real-time financial forecasting or sovereign policy advisory.
+
 ```
 
 TIPM was developed using Antigravity and Gemini 3.
 
-For collaboration, feedback, or suggestions, reach out to me at <tgb_dev@thegeekybeng.com> . Follow me on github or X @thegeekybeng.
+For collaboration, feedback, or suggestions, reach out to me at [tgb_dev@thegeekybeng.com](mailto:tgb_dev@thegeekybeng.com) . Follow me on github or X @thegeekybeng.
