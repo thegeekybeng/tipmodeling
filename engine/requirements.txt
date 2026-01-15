@@ -2,3 +2,5 @@ fastapi
 uvicorn
 pandas
 numpy<2.0.0
+PyYAML
+requests
